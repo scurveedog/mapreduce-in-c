@@ -1,10 +1,10 @@
 /*
- * readLine.c
+ * reducer.c
  *
- * File reads lines from  pre-opened stream stdin.  Test for use in c language
- * mapReduce file for hadoop  job.  Possibly  use this as logic for a c mapper
- * program. Uses getline() to read lines from file & then strtok to get tokens
- * based on delimiters listed in delim[] array.
+ * File reads lines from  system stream stdin.  Test for use in c language map,
+ * reduce file for hadoop jobs. Possibly  use this as logic for a c mapper pro-
+ * gram. Uses getline() to read lines from file, then strtok  gets tokens based
+ * on delimiters listed in delim[] array.
  *
  * Input:
  *		Read data stream from stdin.
@@ -15,57 +15,58 @@
  *
  * Invocation:
  * 	Pipe some data to exec
- *		$> cat token-out.txt | ./readLine | sort -k1,1
+ *		$> cat token-out.txt|./readFromStdin|sort -k1,1|./reducer
  */
 
 #include <stdio.h>
 #include <string.h>
-#include <stddef.h>
 #include <stdlib.h>
 
-int main(void)
-{
-	char *token, *linePtr;
-	char word[40] = {0};
-	char count[11] = {0};
-	const char delim[] = "\n\t";
-	char currentWord[40] = {0};
+#define ARRAYSZ(x) (sizeof x/sizeof x[0])
 
-	long unsigned int space = 40;
+int main(void){
+	char *token, *linePtr;
+	/* Arrays to hold returns from strtok. */
+	char word[120] = {0};
+	char currentWord[120] = {0};
+	/* delimiters used by strtok. */
+	const char delim[] = "\n\t ";
+	/* Assumes max word length <= 120 chars. */
+	long unsigned int space = 120;
 	int currentCount = 1, i = 0;
 
 	linePtr = (char *)malloc(space);
-
-	while(getline(&linePtr, &space, stdin) != -1)
-	{
-		token = strtok(linePtr, delim);
-		while(token)
-		{
-			if(token == currentWord){
+	do{
+		 	getline(&linePtr, &space, stdin);
+			/* Get token1 (word) key */
+			token = strtok(linePtr, delim);
+			memcpy(word, token, strlen(token));
+			
+			/* Compare arrays for equality.  If == 0, Means we
+			 * have more than one instance of 'word' in input. */
+			if(strcmp(word, currentWord) == 0){
 				currentCount += 1;
 			}
 			else{
-				i = 0;
-				while(currentWord[i] != 0)
-					currentWord[i++] = 0;
-
-				for(i = 0; i < strlen(token); i++){
-					currentWord[i] = *(token + i);
-				}
-
-				printf("\n%s\t%d", word, currentCount);
-
-				i = 0;
-				while(word[i] != 0)
-					word[i++] = 0;
+				if(currentWord[0] != 0)
+					/* prn stats for prev. word. */
+					printf("\n%s\t%d", currentWord, currentCount);
+				
+				/* Reset currentWord array. */
+				memset(currentWord, 0, ARRAYSZ(currentWord));
+				
+				memcpy(currentWord, word, strlen(word));
+				currentCount = 1;
 			}
+			memset(word, 0, ARRAYSZ(word));
+			
+			/* Get token2 (value). If no more lines exit. */
 			token = strtok(NULL, delim);
-			for(i = 0; i < 1; i++)
-				count[i] = *(token + i);
-
-			currentCount = atoi(count);
-			token = strtok(NULL, delim);
-		}
-	}
+			
+		}while(token);
+		
+		/* Prints last data before prog end */
+		printf("\n%s\t%d", currentWord, currentCount);
+		
 	return(0);
 }
