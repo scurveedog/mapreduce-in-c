@@ -1,10 +1,11 @@
 /*
  * reducer.c
  *
- * File reads lines from  system stream stdin.  Test for use in c language map,
- * reduce file for hadoop jobs. Possibly  use this as logic for a c mapper pro-
- * gram. Uses getline() to read lines from file, then strtok  gets tokens based
- * on delimiters listed in delim[] array.
+ * File takes sorted input from mapper program 'readFromStdin' and outputs
+ * a chr/string(key) field followed by a tab followed by a int/count(value)
+ * field. The output should be a tab delimited list of key/value on seperate
+ * lines. The value should indicate the total of each unique key found in 
+ * the input data. 
  *
  * Input:
  *		Read data stream from stdin.
