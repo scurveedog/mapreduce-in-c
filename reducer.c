@@ -1,5 +1,5 @@
 /*
- * readLine.c
+ * reducer.c
  *
  * File reads lines from  pre-opened stream stdin.  Test for use in c language
  * mapReduce file for hadoop  job.  Possibly  use this as logic for a c mapper
@@ -13,9 +13,9 @@
  *		Ea. word from stdin on it's own line.  Output sorted  with $> sort is
  *		ready to pass to a hadoop reduce file.
  *
- * Invocation:
+ * Test invocation:
  * 	Pipe some data to exec
- *		$> cat token-out.txt | ./readLine | sort -k1,1
+ *		$> cat token-out.txt | ./reducer | sort -k1,1
  */
 
 #include <stdio.h>
@@ -52,7 +52,6 @@ int main(void)
 				for(i = 0; i < strlen(token); i++){
 					currentWord[i] = *(token + i);
 				}
-
 				printf("\n%s\t%d", word, currentCount);
 
 				i = 0;
