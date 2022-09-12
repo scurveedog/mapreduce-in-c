@@ -2,7 +2,7 @@
  * reducer.c
  *
  * File reads lines from  pre-opened stream stdin.  Test for use in c language
- * mapReduce file for hadoop  job.  Possibly  use this as logic for a c mapper
+ * mapReduce file for hadoop  job. Possibly  use this as logic for a c reducer
  * program. Uses getline() to read lines from file & then strtok to get tokens
  * based on delimiters listed in delim[] array.
  *
