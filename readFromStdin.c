@@ -24,8 +24,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-int main(void)
-{
+int main(void) {
 	unsigned long int nbytes = 81;
 	char *token, *linePtr;
 	const char delim[] = "\n ";
@@ -33,16 +32,15 @@ int main(void)
 	linePtr = (char *)malloc(nbytes);
 
 	// &linePtr == **linePtr
-	while(getline(&linePtr, &nbytes, stdin) != -1)
-	{
+	while(getline(&linePtr, &nbytes, stdin) != -1)	{
 		/* gets 1st field (key) into token */
 		token = strtok(linePtr, delim);
-		while(token)
-		{
+		while(token) {
 			printf("%s\t1\n", token);
 			/* gets 2nd field (value) into token */
 			token = strtok(NULL, delim);
 		}
 	}
+	free(linePtr);
 	return 0;
 }
