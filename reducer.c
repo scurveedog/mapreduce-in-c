@@ -36,12 +36,10 @@ int main(void)
 
 	linePtr = (char *)malloc(space);
 
-	while(getline(&linePtr, &space, stdin) != -1)
-	{
+	while(getline(&linePtr, &space, stdin) != -1) {
 		token = strtok(linePtr, delim);
-		while(token)
-		{
-			if(token == currentWord){
+		while(token) {
+			if(token == currentWord) {
 				currentCount += 1;
 			}
 			else{
@@ -49,7 +47,7 @@ int main(void)
 				while(currentWord[i] != 0)
 					currentWord[i++] = 0;
 
-				for(i = 0; i < strlen(token); i++){
+				for(i = 0; i < strlen(token); i++) {
 					currentWord[i] = *(token + i);
 				}
 				printf("\n%s\t%d", word, currentCount);
