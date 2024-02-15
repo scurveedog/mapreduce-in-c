@@ -37,7 +37,7 @@ int main(void){
 	int currentCount = 1, i = 0;
 
 	linePtr = (char *)malloc(space);
-	do{
+	do {
 		 	getline(&linePtr, &space, stdin);
 			/* Get token1 (word) key */
 			token = strtok(linePtr, delim);
@@ -45,10 +45,10 @@ int main(void){
 			
 			/* Compare arrays for equality.  If == 0, Means we
 			 * have more than one instance of 'word' in input. */
-			if(strcmp(word, currentWord) == 0){
+			if(strcmp(word, currentWord) == 0) {
 				currentCount += 1;
 			}
-			else{
+			else {
 				if(currentWord[0] != 0)
 					/* prn stats for prev. word. */
 					printf("\n%s\t%d", currentWord, currentCount);
@@ -64,7 +64,7 @@ int main(void){
 			/* Get token2 (value). If no more lines exit. */
 			token = strtok(NULL, delim);
 			
-		}while(token);
+		} while(token);
 		
 		/* Prints last data before prog end */
 		printf("\n%s\t%d", currentWord, currentCount);
